@@ -1,0 +1,6 @@
+quarkus:
+  application:
+    name: finanz-app
+  http:
+    port: 8080
+    root-path: /api/v1
