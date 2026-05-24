@@ -20,4 +20,7 @@ public abstract class AuditableEntity extends BaseEntity {
   @UpdateTimestamp
   @Column(name = "\"UPDATED_AT\"", nullable = false)
   private Instant updatedAt;
+
+  @Column(name = "\"IS_DELETED\"", nullable = false)
+  private boolean isDeleted = Boolean.FALSE;
 }
