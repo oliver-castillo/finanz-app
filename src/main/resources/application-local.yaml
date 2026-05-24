@@ -21,4 +21,4 @@ quarkus:
       format-sql: true
       bind-parameters: true
   live-reload:
-    instrumentation=true:
+    instrumentation: true
