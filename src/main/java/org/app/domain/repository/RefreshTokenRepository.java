@@ -1,5 +1,7 @@
 package org.app.domain.repository;
 
+import org.app.domain.model.RefreshToken;
+
 public interface RefreshTokenRepository {
-  void persist(String email);
+  RefreshToken persist(String email);
 }

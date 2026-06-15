@@ -46,13 +46,4 @@ public class UserEntity extends AuditableEntity {
       inverseJoinColumns = @jakarta.persistence.JoinColumn(name = "ROLE_ID"))
   @Roles
   public List<RoleEntity> roles = new ArrayList<>();
-
-  /*
-   * Static method to find a user by email
-   * @param email the email of the user to find
-   * @return the UserEntity with the given email, or null if not found
-   */
-  public static UserEntity findByEmail(String email) {
-    return find("email", email).firstResult();
-  }
 }

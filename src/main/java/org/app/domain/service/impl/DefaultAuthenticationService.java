@@ -6,6 +6,7 @@ import io.quarkus.security.identity.SecurityIdentity;
 import io.quarkus.security.identity.request.UsernamePasswordAuthenticationRequest;
 import jakarta.enterprise.context.ApplicationScoped;
 import lombok.RequiredArgsConstructor;
+import org.app.domain.model.RefreshToken;
 import org.app.domain.repository.RefreshTokenRepository;
 import org.app.domain.service.AuthenticationService;
 import org.app.domain.service.JwtProvider;
@@ -30,12 +31,14 @@ public class DefaultAuthenticationService implements AuthenticationService {
         .authenticate(authRequest)
         .await().indefinitely();
 
-    refreshTokenRepository.persist(identity.getPrincipal().getName());
+    RefreshToken refreshToken = refreshTokenRepository.persist(identity.getPrincipal().getName());
 
     String token = jwtProvider.generateToken(
         identity.getPrincipal().getName(),
         identity.getRoles());
 
-    return new SignInResponse().accessToken(token);
+    return new SignInResponse()
+        .accessToken(token)
+        .refreshToken(refreshToken.getToken());
   }
 }

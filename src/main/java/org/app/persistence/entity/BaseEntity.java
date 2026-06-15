@@ -1,6 +1,5 @@
 package org.app.persistence.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,7 +9,7 @@ import lombok.Getter;
 
 @MappedSuperclass
 @Getter
-public abstract class BaseEntity extends PanacheEntityBase {
+public abstract class BaseEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
