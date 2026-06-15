@@ -1,52 +1,51 @@
 openapi: 3.1.0
 info:
-  title: Inventory Service
+  title: Finanz API
   description: My service
   version: 1.0.0
 servers:
   - url: 'http://localhost:8080/api/v1'
 paths:
-  /users:
+  /auth/sign-up:
     post:
-      summary: Create user
-      operationId: createUser
+      summary: Sign up user
+      operationId: signUpUser
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateUserRequest'
+              $ref: '#/components/schemas/SignUpRequest'
       responses:
-        '201':
-          description: User created
+        '200':
+          description: User signed up
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/SignUpResponse'
         '409':
           description: Email already exists
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-    put:
-      summary: Update user by ID
-      operationId: updateUserById
-      parameters:
-        - $ref: '#/components/parameters/id'
+  /auth/sign-in:
+    post:
+      summary: Sign in user
+      operationId: signInUser
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateUserRequest'
+              $ref: '#/components/schemas/SignInRequest'
       responses:
         '200':
-          description: User updated
+          description: User signed in
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserResponse'
+                $ref: '#/components/schemas/SignInResponse'
 
 components:
   schemas:
@@ -66,7 +65,7 @@ components:
         - firstName
         - lastName
         - email
-    CreateUserRequest:
+    SignUpRequest:
       allOf:
         - $ref: '#/components/schemas/UserBase'
         - type: object
@@ -76,11 +75,7 @@ components:
               example: 'securePassword123'
           required:
             - password
-    UpdateUserRequest:
-      allOf:
-        - $ref: '#/components/schemas/UserBase'
-        - type: object
-    UserResponse:
+    SignUpResponse:
       allOf:
         - $ref: '#/components/schemas/UserBase'
         - type: object
@@ -89,6 +84,27 @@ components:
               type: integer
               format: int64
               example: 1
+    SignInRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'example@example.com'
+        password:
+          type: string
+          example: 'securePassword123'
+      required:
+        - email
+        - password
+    SignInResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNjg4ODg4ODg4LCJleHAiOjE2ODg4OTI0ODh9.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890'
+        refreshToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNjg4ODg4ODg4LCJleHAiOjE2ODg4OTI0ODh9.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890'
     ErrorResponse:
       type: object
       properties:
