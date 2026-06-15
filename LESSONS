@@ -1,0 +1,2 @@
+La dependencia quarkus-smallrye-jwt hace que quarkus-security-jpa no funcione con basic auth
+En la configuracion de autorizacion de endpoints, en las properties incluir siempre el method (GET, POST, etc.) para que funcione
