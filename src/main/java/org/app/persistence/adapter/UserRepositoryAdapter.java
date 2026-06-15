@@ -1,14 +1,17 @@
 package org.app.persistence.adapter;
 
+import io.quarkus.elytron.security.common.BcryptUtil;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.app.domain.model.User;
 import org.app.domain.repository.UserRepository;
 import org.app.mapper.UserMapper;
+import org.app.persistence.entity.RoleEntity;
 import org.app.persistence.entity.UserEntity;
 import org.app.persistence.repository.PanacheUserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -22,7 +25,10 @@ public class UserRepositoryAdapter implements UserRepository {
   @Transactional
   public User persist(User user) {
     UserEntity userEntity = userMapper.userToUserEntity(user);
+    userEntity.setPassword(BcryptUtil.bcryptHash(user.getPassword()));
+    userEntity.setRoles(List.of(new RoleEntity("admin")));
     panacheUserRepository.persist(userEntity);
+    //userEntity.setRoles(List.of(new RoleEntity(null,"admin")));
     return userMapper.userEntityToUser(userEntity);
   }
 
@@ -33,12 +39,20 @@ public class UserRepositoryAdapter implements UserRepository {
 
   @Override
   public Optional<User> findById(Long id) {
-    return Optional.empty();
+    UserEntity userEntity = panacheUserRepository.findById(id);
+    return Optional.of(userMapper.userEntityToUser(userEntity));
+  }
+
+  @Override
+  public Optional<User> findByEmail(String email) {
+    UserEntity userEntity = panacheUserRepository.findByEmail(email);
+    User user = userMapper.userEntityToUser(userEntity);
+    return Optional.of(user);
   }
 
   @Override
   public boolean existsById(Long id) {
-    return false;
+    return panacheUserRepository.findById(id) != null;
   }
 
   @Override
