@@ -4,6 +4,21 @@ quarkus:
   http:
     port: 8080
     root-path: /api/v1
+    auth:
+      policy:
+        role-policy1:
+          roles-allowed: admin
+        role-policy2:
+          roles-allowed: user
+      permission:
+        auth:
+          paths: auth/*
+          policy: permit
+          methods: POST
+        roles:
+          paths: auth/user
+          policy: role-policy1
+          methods: GET
   datasource:
     db-kind: h2
     username: sa
@@ -22,3 +37,21 @@ quarkus:
       bind-parameters: true
   live-reload:
     instrumentation: true
+mp:
+  jwt:
+    verify:
+      issuer: ${JWT_ISSUER}
+      publickey:
+        location: src/main/resources/keys/publicKey.pem
+
+smallrye:
+  jwt:
+    sign:
+      key:
+        location: src/main/resources/keys/privateKey.pem
+    encrypt:
+      key:
+        location: src/main/resources/keys/publicKey.pem
+
+#smallrye.jwt.sign.key=${private.key.from.vault}
+#smallrye.jwt.encrypt.key=${public.key.from.vault}
