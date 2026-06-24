@@ -7,11 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.app.domain.model.User;
 import org.app.domain.repository.UserRepository;
 import org.app.mapper.UserMapper;
-import org.app.persistence.entity.RoleEntity;
 import org.app.persistence.entity.UserEntity;
 import org.app.persistence.repository.PanacheUserRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -26,9 +24,7 @@ public class UserRepositoryAdapter implements UserRepository {
   public User persist(User user) {
     UserEntity userEntity = userMapper.userToUserEntity(user);
     userEntity.setPassword(BcryptUtil.bcryptHash(user.getPassword()));
-    userEntity.setRoles(List.of(new RoleEntity("admin")));
     panacheUserRepository.persist(userEntity);
-    //userEntity.setRoles(List.of(new RoleEntity(null,"admin")));
     return userMapper.userEntityToUser(userEntity);
   }
 
