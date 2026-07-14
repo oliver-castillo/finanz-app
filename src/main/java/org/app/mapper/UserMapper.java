@@ -1,6 +1,5 @@
 package org.app.mapper;
 
-import org.app.domain.model.User;
 import org.app.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -10,16 +9,9 @@ import org.openapitools.model.SignUpResponse;
 
 @Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA_CDI)
 public interface UserMapper {
-  UserEntity userToUserEntity(User user);
-
-  SignUpResponse userToSignUpResponse(User user);
-
   @Mapping(target = "id", ignore = true)
-  User signUpRequestToUser(SignUpRequest signUpRequest);
+  @Mapping(target = "role", expression = "java(org.app.util.Role.USER.name())")
+  UserEntity toUserEntity(SignUpRequest signUpRequest);
 
-  /*@Mapping(target = "id", ignore = true)
-  @Mapping(target = "password", ignore = true)
-  User updateUserRequestToUser(UpdateUserRequest updateUserRequest);*/
-
-  User userEntityToUser(UserEntity userEntity);
+  SignUpResponse toSignUpResponse(UserEntity userEntity);
 }

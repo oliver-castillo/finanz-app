@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
-import java.util.UUID;
 
 @Table(name = "REFRESH_TOKENS")
 @Entity
@@ -20,7 +19,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class RefreshTokenEntity extends BaseEntity {
   @Column(nullable = false, unique = true)
-  private String token = UUID.randomUUID().toString();
+  private String token;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "USER_ID", nullable = false)
