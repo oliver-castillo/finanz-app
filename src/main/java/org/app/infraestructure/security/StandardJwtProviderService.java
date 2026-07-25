@@ -8,7 +8,7 @@ import java.time.Duration;
 import java.util.Set;
 
 @ApplicationScoped
-public class DefaultJwtProviderService implements JwtProviderService {
+public class StandardJwtProviderService implements JwtProviderService {
   private final String issuer = System.getenv("JWT_ISSUER");
 
   @Override

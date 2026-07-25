@@ -12,7 +12,7 @@ import org.openapitools.model.AccountResponse;
 
 @ApplicationScoped
 @RequiredArgsConstructor
-public class DefaultAccountService implements AccountService {
+public class StandardAccountService implements AccountService {
   private final AccountMapper accountMapper;
   private final PanacheAccountRepository accountRepository;
 

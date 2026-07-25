@@ -31,7 +31,7 @@ import java.util.UUID;
  */
 @ApplicationScoped
 @RequiredArgsConstructor
-public class DefaultAuthenticationService implements AuthenticationService {
+public class StandardAuthenticationService implements AuthenticationService {
   private final PanacheUserRepository panacheUserRepository;
   private final UserMapper userMapper;
   private final JwtProviderService jwtProviderService;
