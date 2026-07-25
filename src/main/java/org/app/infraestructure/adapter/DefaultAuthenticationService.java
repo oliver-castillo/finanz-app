@@ -1,4 +1,4 @@
-package org.app.domain.service.impl;
+package org.app.infraestructure.adapter;
 
 import io.quarkus.elytron.security.common.BcryptUtil;
 import io.quarkus.security.credential.PasswordCredential;
@@ -10,13 +10,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.app.domain.mapper.UserMapper;
 import org.app.domain.service.AuthenticationService;
-import org.app.domain.service.JwtProvider;
+import org.app.domain.service.JwtProviderService;
 import org.app.domain.util.ExceptionMessage;
 import org.app.exception.AlreadyExistsException;
-import org.app.persistence.entity.RefreshTokenEntity;
-import org.app.persistence.entity.UserEntity;
-import org.app.persistence.repository.PanacheRefreshTokenRepository;
-import org.app.persistence.repository.PanacheUserRepository;
+import org.app.infraestructure.persistence.entity.RefreshTokenEntity;
+import org.app.infraestructure.persistence.entity.UserEntity;
+import org.app.infraestructure.persistence.repository.PanacheRefreshTokenRepository;
+import org.app.infraestructure.persistence.repository.PanacheUserRepository;
 import org.openapitools.model.SignInRequest;
 import org.openapitools.model.SignInResponse;
 import org.openapitools.model.SignUpRequest;
@@ -34,7 +34,7 @@ import java.util.UUID;
 public class DefaultAuthenticationService implements AuthenticationService {
   private final PanacheUserRepository panacheUserRepository;
   private final UserMapper userMapper;
-  private final JwtProvider jwtProvider;
+  private final JwtProviderService jwtProviderService;
   private final IdentityProviderManager identityProviderManager;
   private final PanacheRefreshTokenRepository panacheRefreshTokenRepository;
   private final Instant expiresAt = Instant.now().plus(7, ChronoUnit.DAYS);
@@ -78,7 +78,7 @@ public class DefaultAuthenticationService implements AuthenticationService {
     RefreshTokenEntity refreshTokenEntity = buildRefreshTokenEntity(identity.getPrincipal().getName());
     panacheRefreshTokenRepository.persist(refreshTokenEntity);
 
-    String token = jwtProvider.generateToken(
+    String token = jwtProviderService.generateToken(
         identity.getPrincipal().getName(),
         identity.getRoles());
 

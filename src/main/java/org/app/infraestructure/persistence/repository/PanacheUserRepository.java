@@ -1,8 +1,8 @@
-package org.app.persistence.repository;
+package org.app.infraestructure.persistence.repository;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.app.persistence.entity.UserEntity;
+import org.app.infraestructure.persistence.entity.UserEntity;
 
 @ApplicationScoped
 public class PanacheUserRepository implements PanacheRepository<UserEntity> {

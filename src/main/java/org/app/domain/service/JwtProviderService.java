@@ -2,6 +2,6 @@ package org.app.domain.service;
 
 import java.util.Set;
 
-public interface JwtProvider {
+public interface JwtProviderService {
   String generateToken(String username, Set<String> roles);
 }

@@ -1,6 +1,6 @@
 package org.app.domain.mapper;
 
-import org.app.persistence.entity.UserEntity;
+import org.app.infraestructure.persistence.entity.UserEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;

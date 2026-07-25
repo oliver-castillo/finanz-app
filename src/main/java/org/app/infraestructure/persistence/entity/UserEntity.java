@@ -1,4 +1,4 @@
-package org.app.persistence.entity;
+package org.app.infraestructure.persistence.entity;
 
 import io.quarkus.security.jpa.Password;
 import io.quarkus.security.jpa.Roles;

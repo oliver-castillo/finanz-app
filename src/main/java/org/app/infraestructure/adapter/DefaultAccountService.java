@@ -1,12 +1,12 @@
-package org.app.domain.service.impl;
+package org.app.infraestructure.adapter;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.app.domain.mapper.AccountMapper;
 import org.app.domain.service.AccountService;
-import org.app.persistence.entity.AccountEntity;
-import org.app.persistence.repository.PanacheAccountRepository;
+import org.app.infraestructure.persistence.entity.AccountEntity;
+import org.app.infraestructure.persistence.repository.PanacheAccountRepository;
 import org.openapitools.model.AccountRequest;
 import org.openapitools.model.AccountResponse;
 

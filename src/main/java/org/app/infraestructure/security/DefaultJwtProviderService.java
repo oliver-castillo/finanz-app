@@ -1,14 +1,14 @@
-package org.app.domain.service.impl;
+package org.app.infraestructure.security;
 
 import io.smallrye.jwt.build.Jwt;
 import jakarta.enterprise.context.ApplicationScoped;
-import org.app.domain.service.JwtProvider;
+import org.app.domain.service.JwtProviderService;
 
 import java.time.Duration;
 import java.util.Set;
 
 @ApplicationScoped
-public class DefaultJwtProvider implements JwtProvider {
+public class DefaultJwtProviderService implements JwtProviderService {
   private final String issuer = System.getenv("JWT_ISSUER");
 
   @Override
