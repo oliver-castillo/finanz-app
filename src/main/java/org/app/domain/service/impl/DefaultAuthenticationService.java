@@ -8,11 +8,11 @@ import io.quarkus.security.identity.request.UsernamePasswordAuthenticationReques
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.app.config.AlreadyExistsException;
-import org.app.config.ExceptionMessage;
+import org.app.domain.mapper.UserMapper;
 import org.app.domain.service.AuthenticationService;
 import org.app.domain.service.JwtProvider;
-import org.app.mapper.UserMapper;
+import org.app.domain.util.ExceptionMessage;
+import org.app.exception.AlreadyExistsException;
 import org.app.persistence.entity.RefreshTokenEntity;
 import org.app.persistence.entity.UserEntity;
 import org.app.persistence.repository.PanacheRefreshTokenRepository;

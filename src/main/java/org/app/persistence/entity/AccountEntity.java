@@ -31,5 +31,5 @@ public class AccountEntity extends AuditableEntity {
   private String currency;
 
   @Column(name = "\"IS_EXCLUDED_FROM_STATISTICS\"")
-  private boolean excludedFromStatistics;
+  private boolean isExcludedFromStatistics;
 }
