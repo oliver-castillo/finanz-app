@@ -1,4 +1,4 @@
-package org.app.config;
+package org.app.domain.util;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,8 @@
-package org.app.config;
+package org.app.exception;
 
 import jakarta.ws.rs.core.Response;
 import lombok.Getter;
+import org.app.domain.util.ExceptionMessage;
 
 @Getter
 public abstract class CustomException extends RuntimeException {
