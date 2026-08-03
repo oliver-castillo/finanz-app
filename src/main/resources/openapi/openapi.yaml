@@ -22,7 +22,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SignUpResponse'
+                $ref: '#/components/schemas/AuthResponse'
         '409':
           description: Email already exists
           content:
@@ -45,7 +45,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SignInResponse'
+                $ref: '#/components/schemas/AuthResponse'
   /account:
     post:
       summary: Create account
@@ -92,15 +92,6 @@ components:
               example: 'securePassword123'
           required:
             - password
-    SignUpResponse:
-      allOf:
-        - $ref: '#/components/schemas/UserBase'
-        - type: object
-          properties:
-            id:
-              type: integer
-              format: int64
-              example: 1
     SignInRequest:
       type: object
       properties:
@@ -113,7 +104,7 @@ components:
       required:
         - email
         - password
-    SignInResponse:
+    AuthResponse:
       type: object
       properties:
         accessToken:
@@ -122,6 +113,12 @@ components:
         refreshToken:
           type: string
           example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNjg4ODg4ODg4LCJleHAiOjE2ODg4OTI0ODh9.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890'
+        expiresAt:
+          type: string
+          format: date-time
+          example: '2024-06-01T12:00:00Z'
+        user:
+          $ref: '#/components/schemas/UserBase'
     AccountBase:
       type: object
       properties:
