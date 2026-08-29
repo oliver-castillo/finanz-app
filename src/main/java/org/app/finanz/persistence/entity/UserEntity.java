@@ -60,7 +60,6 @@ public class UserEntity extends AuditableEntity {
   private List<RefreshTokenEntity> refreshTokens = new ArrayList<>();
 
   public void addRefreshToken(RefreshTokenEntity refreshTokenEntity) {
-    refreshTokenEntity.setUser(this);
     refreshTokens.add(refreshTokenEntity);
   }
 }

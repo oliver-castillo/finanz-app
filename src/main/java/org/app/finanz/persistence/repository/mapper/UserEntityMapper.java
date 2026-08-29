@@ -12,9 +12,14 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.JAKARTA_CDI, imports = Role.class)
 public interface UserEntityMapper {
   @Mapping(target = "id", ignore = true)
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "refreshTokens", ignore = true)
+  @Mapping(target = "accounts", ignore = true)
   UserEntity toUserEntity(User user);
 
   User toUser(UserEntity userEntity);
 
-  RefreshTokenEntity toRefreshTokenEntity(RefreshToken refreshToken);
+  @Mapping(target = "createdAt", ignore = true)
+  @Mapping(target = "user", source = "userEntity")
+  RefreshTokenEntity toRefreshTokenEntity(RefreshToken refreshToken, UserEntity userEntity);
 }

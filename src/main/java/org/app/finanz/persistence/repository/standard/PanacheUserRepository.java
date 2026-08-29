@@ -61,7 +61,7 @@ public class PanacheUserRepository implements UserRepository, PanacheRepository<
   @Transactional
   public void addRefreshToken(String email, RefreshToken refreshToken) {
     UserEntity userEntity = findUserByEmail(email);
-    RefreshTokenEntity refreshTokenEntity = userEntityMapper.toRefreshTokenEntity(refreshToken);
+    RefreshTokenEntity refreshTokenEntity = userEntityMapper.toRefreshTokenEntity(refreshToken, userEntity);
     userEntity.addRefreshToken(refreshTokenEntity);
   }
 
