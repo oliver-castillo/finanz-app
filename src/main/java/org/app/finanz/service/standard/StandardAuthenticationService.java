@@ -1,5 +1,6 @@
 package org.app.finanz.service.standard;
 
+import io.quarkus.security.AuthenticationFailedException;
 import io.quarkus.security.credential.PasswordCredential;
 import io.quarkus.security.identity.IdentityProviderManager;
 import io.quarkus.security.identity.SecurityIdentity;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.app.finanz.domain.AuthResult;
 import org.app.finanz.domain.RefreshToken;
 import org.app.finanz.domain.User;
+import org.app.finanz.exception.InvalidCredentialsException;
 import org.app.finanz.service.AuthenticationService;
 import org.app.finanz.service.JwtProviderService;
 import org.app.finanz.service.UserService;
@@ -51,13 +53,17 @@ public class StandardAuthenticationService implements AuthenticationService {
             email,
             new PasswordCredential(password.toCharArray()));
 
-    SecurityIdentity identity = identityProviderManager
-        .authenticate(authRequest)
-        .await().indefinitely();
-
-    return jwtProviderService.generateAccessToken(
-        identity.getPrincipal().getName(),
-        identity.getRoles());
+    try {
+      SecurityIdentity identity = identityProviderManager
+          .authenticate(authRequest)
+          .await()
+          .indefinitely();
+      return jwtProviderService.generateAccessToken(
+          identity.getPrincipal().getName(),
+          identity.getRoles());
+    } catch (AuthenticationFailedException _) {
+      throw new InvalidCredentialsException();
+    }
   }
 
   private AuthResult generateAuthResult(String accessToken, RefreshToken refreshToken, User signedInUser) {
