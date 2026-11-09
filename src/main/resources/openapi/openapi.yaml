@@ -1,0 +1,179 @@
+openapi: 3.0.1
+info:
+  title: Finanz API
+  description: My service
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/api/v1'
+paths:
+  /auth/sign-up:
+    post:
+      summary: Sign up user
+      operationId: signUpUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignUpRequest'
+      responses:
+        '200':
+          description: User signed up
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '409':
+          description: Email already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/sign-in:
+    post:
+      summary: Sign in user
+      operationId: signInUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignInRequest'
+      responses:
+        '200':
+          description: User signed in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+  /account:
+    post:
+      summary: Create account
+      operationId: createAccount
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+
+components:
+  schemas:
+    UserBase:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: 'John'
+        lastName:
+          type: string
+          example: 'Doe'
+        email:
+          type: string
+          example: 'test@example.com'
+      required:
+        - firstName
+        - lastName
+        - email
+    SignUpRequest:
+      allOf:
+        - $ref: '#/components/schemas/UserBase'
+        - type: object
+          properties:
+            password:
+              type: string
+              example: 'securePassword123'
+          required:
+            - password
+    SignInRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'example@example.com'
+        password:
+          type: string
+          example: 'securePassword123'
+      required:
+        - email
+        - password
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNjg4ODg4ODg4LCJleHAiOjE2ODg4OTI0ODh9.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890'
+        refreshToken:
+          type: string
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0QGV4YW1wbGUuY29tIiwiaWF0IjoxNjg4ODg4ODg4LCJleHAiOjE2ODg4OTI0ODh9.abc123def456ghi789jkl012mno345pqr678stu901vwx234yz567890'
+        expiresAt:
+          type: string
+          format: date-time
+          example: '2024-06-01T12:00:00Z'
+        user:
+          $ref: '#/components/schemas/UserBase'
+    AccountBase:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'My Savings Account'
+        color:
+          type: string
+          example: '#FF5733'
+        type:
+          type: string
+          example: 'Savings'
+        amount:
+          type: number
+          format: double
+          example: 1000.50
+        currency:
+          type: string
+          example: 'USD'
+        isExcludedFromStatistics:
+          type: boolean
+          example: false
+      required:
+        - name
+        - type
+        - currency
+    AccountRequest:
+      allOf:
+        - $ref: '#/components/schemas/AccountBase'
+        - type: object
+    AccountResponse:
+      allOf:
+        - $ref: '#/components/schemas/AccountBase'
+        - type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              example: 1
+    ErrorResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example:
+            - 'Email already exists'
+            - 'User not found'
+  parameters:
+    id:
+      in: query
+      name: id
+      description: User ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+        minimum: 1
+        example: 1
