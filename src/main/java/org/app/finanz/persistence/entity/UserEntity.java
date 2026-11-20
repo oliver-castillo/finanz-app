@@ -14,7 +14,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.app.finanz.util.Role;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,15 +35,15 @@ public class UserEntity extends AuditableEntity {
   private String lastName;
 
   @Username
-  @Column(name = "\"EMAIL\"", unique = true)
-  private String email;
+  @Column(name = "\"USERNAME\"", unique = true)
+  private String username;
 
   @Password
   @Column(name = "\"PASSWORD\"")
   private String password;
 
   @Roles
-  private String role;
+  private String role = Role.USER.name();
 
   @OneToMany(
       mappedBy = "user",
@@ -59,7 +61,10 @@ public class UserEntity extends AuditableEntity {
   )
   private List<RefreshTokenEntity> refreshTokens = new ArrayList<>();
 
-  public void addRefreshToken(RefreshTokenEntity refreshTokenEntity) {
+  public void addRefreshToken(Instant expiresAt) {
+    RefreshTokenEntity refreshTokenEntity = new RefreshTokenEntity();
+    refreshTokenEntity.setExpiresAt(expiresAt);
+    refreshTokenEntity.setUser(this);
     refreshTokens.add(refreshTokenEntity);
   }
 }

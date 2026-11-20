@@ -25,11 +25,11 @@
         origins: "http://localhost:4200"
         methods: "GET, POST, PUT, DELETE, OPTIONS"
     datasource:
-      db-kind: h2
-      username: sa
-      password:
+      db-kind: postgresql
+      username: ${DB_USER}
+      password: ${DB_PASSWORD}
       jdbc:
-        url: jdbc:h2:file:./target/h2/finanz_db;AUTO_SERVER=true
+        url: ${DB_URL}
         max-size: 20
         acquisition-timeout: 30
         min-size: 1
@@ -57,6 +57,10 @@
       encrypt:
         key:
           location: src/main/resources/keys/publicKey.pem
+
+  # 7 days
+  app:
+    refresh_token_expiration: 604800
 
 #smallrye.jwt.sign.key=${private.key.from.vault}
 #smallrye.jwt.encrypt.key=${public.key.from.vault}

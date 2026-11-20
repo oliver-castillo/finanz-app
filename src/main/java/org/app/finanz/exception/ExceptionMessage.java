@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum ExceptionMessage {
-  EMAIL_ALREADY_EXISTS("Email already exists"),
+  USERNAME_ALREADY_EXISTS("Username already exists"),
   USER_NOT_FOUND("User not found"),
-  INVALID_CREDENTIALS("Email or password is incorrect");
+  INVALID_CREDENTIALS("Username or password is incorrect");
 
   private final String message;
 }

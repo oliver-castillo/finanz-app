@@ -5,9 +5,16 @@ info:
   version: 1.0.0
 servers:
   - url: 'http://localhost:8080/api/v1'
+tags:
+  - name: Auth
+    description: Authentication and user access operations
+  - name: Account
+    description: Account management operations
 paths:
   /auth/sign-up:
     post:
+      tags:
+        - Auth
       summary: Sign up user
       operationId: signUpUser
       requestBody:
@@ -24,13 +31,15 @@ paths:
               schema:
                 $ref: '#/components/schemas/AuthResponse'
         '409':
-          description: Email already exists
+          description: Username already exists
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
   /auth/sign-in:
     post:
+      tags:
+        - Auth
       summary: Sign in user
       operationId: signInUser
       requestBody:
@@ -48,6 +57,8 @@ paths:
                 $ref: '#/components/schemas/AuthResponse'
   /account:
     post:
+      tags:
+        - Account
       summary: Create account
       operationId: createAccount
       requestBody:
@@ -75,13 +86,13 @@ components:
         lastName:
           type: string
           example: 'Doe'
-        email:
+        username:
           type: string
-          example: 'test@example.com'
+          example: 'testuser'
       required:
         - firstName
         - lastName
-        - email
+        - username
     SignUpRequest:
       allOf:
         - $ref: '#/components/schemas/UserBase'
@@ -95,14 +106,14 @@ components:
     SignInRequest:
       type: object
       properties:
-        email:
+        username:
           type: string
-          example: 'example@example.com'
+          example: 'testuser'
         password:
           type: string
           example: 'securePassword123'
       required:
-        - email
+        - username
         - password
     AuthResponse:
       type: object
@@ -164,7 +175,7 @@ components:
         message:
           type: string
           example:
-            - 'Email already exists'
+            - 'Username already exists'
             - 'User not found'
   parameters:
     id:
